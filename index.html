@@ -258,27 +258,39 @@
     font-size:0.95rem; padding:1.6rem 1.3rem 1rem;
   }
 
-  /* ---------- TEASER — 3D TILT VIDEO CARD ---------- */
+  /* ---------- TEASER — 3D TILT VIDEO CARDS ---------- */
   .teaser{ background:var(--ink); color:var(--parchment); overflow:hidden; }
   .teaser .wrap{ padding:8rem 6vw; }
   .teaser .section-head h2{ color:var(--parchment); }
   .teaser .section-head h2 em{ color:var(--gold-bright); }
   .teaser-stage{
-    perspective:1600px;
+    perspective:1800px;
     display:flex;
     justify-content:center;
+    align-items:center;
+    gap:clamp(1rem, 4vw, 3rem);
+    flex-wrap:wrap;
   }
   .tilt-card{
     position:relative;
-    width:min(720px, 90vw);
+    width:min(400px, 42vw);
     aspect-ratio:9/16;
-    max-height:78vh;
+    max-height:72vh;
     border-radius:14px;
     overflow:hidden;
     transform-style:preserve-3d;
     transition: transform 0.25s cubic-bezier(.16,1,.3,1), box-shadow 0.4s ease;
     box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(224,180,101,0.15);
     background:#000;
+    --ty:0px; --rz:0deg; --rx:0deg; --ry:0deg; --sc:1;
+    transform: translateY(var(--ty)) rotate(var(--rz)) perspective(1800px) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--sc));
+  }
+  .tilt-card.offset-up{ --ty:-2.2rem; --rz:-1.2deg; }
+  .tilt-card.offset-down{ --ty:2.2rem; --rz:1.2deg; }
+  .tilt-card:hover{ z-index:5; }
+  @media (max-width:760px){
+    .tilt-card{ width:min(480px, 78vw); }
+    .tilt-card.offset-up, .tilt-card.offset-down{ --ty:0px; --rz:0deg; }
   }
   .tilt-card video{
     width:100%; height:100%; object-fit:cover; display:block;
@@ -299,16 +311,25 @@
     pointer-events:none;
     transform:translateZ(40px);
   }
+  .tilt-index{
+    position:absolute; top:1.2rem; left:1.2rem;
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:0.85rem; color:rgba(244,238,225,0.7);
+    border:1px solid rgba(244,238,225,0.4);
+    border-radius:20px; padding:0.2rem 0.7rem;
+    transform:translateZ(30px);
+    letter-spacing:0.04em;
+  }
   .tilt-caption{
     position:absolute; left:0; right:0; bottom:0;
     padding:2rem 1.6rem 1.6rem;
     background:linear-gradient(0deg, rgba(0,0,0,0.75), transparent);
     transform:translateZ(30px);
     font-family:'Cormorant Garamond', serif; font-style:italic;
-    font-size:1.1rem; color:var(--parchment);
+    font-size:1.05rem; color:var(--parchment);
   }
   .teaser-hint{
-    text-align:center; margin-top:1.8rem;
+    text-align:center; margin-top:2.4rem;
     font-family:'Cormorant Garamond', serif; font-style:italic;
     font-size:0.95rem; color:rgba(244,238,225,0.55);
   }
@@ -399,7 +420,7 @@
 
   /* ---------- HOSTS ---------- */
   .hosts{ background:var(--parchment); }
-  .hosts-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:3rem; border-top:1px solid var(--line); padding-top:3.2rem; }
+  .hosts-grid{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:2.4rem; border-top:1px solid var(--line); padding-top:3.2rem; }
   .host-block .k{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:1rem; color:var(--gold); margin-bottom:0.6rem; }
   .host-block .v{ font-family:'Fraunces', serif; font-size:1.2rem; }
   .host-block .v span{ display:block; font-size:0.92rem; font-family:'Inter'; color:var(--stone); margin-top:0.3rem; font-weight:300;}
@@ -789,14 +810,22 @@
         </div>
       </div>
       <div class="teaser-stage fade-up">
-        <div class="tilt-card" id="tiltCard">
+        <div class="tilt-card offset-up">
           <video src="videos/teaser.mp4" poster="images/hug-green.jpg" autoplay muted loop playsinline></video>
           <div class="tilt-frame"></div>
-          <div class="tilt-glare" id="tiltGlare"></div>
+          <div class="tilt-glare"></div>
+          <div class="tilt-index">I</div>
           <div class="tilt-caption">A moment from the shoot, in motion</div>
         </div>
+        <div class="tilt-card offset-down">
+          <video src="videos/finale.mp4" poster="images/engagement-arm.jpg" autoplay muted loop playsinline></video>
+          <div class="tilt-frame"></div>
+          <div class="tilt-glare"></div>
+          <div class="tilt-index">II</div>
+          <div class="tilt-caption">One more, just before the night begins</div>
+        </div>
       </div>
-      <div class="teaser-hint">move your cursor over the card</div>
+      <div class="teaser-hint">move your cursor over each card</div>
     </div>
   </section>
 
@@ -877,8 +906,8 @@
           <div class="duo"></div><img src="images/hug-green.jpg" alt="The couple in an embrace"><div class="tag">Held close</div>
           <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5-5"/><path d="M10 7v6M7 10h6"/></svg></div>
         </div>
-        <div class="exhibit b lightbox-trigger" data-full="images/dance-cutout.jpg" data-caption="A quiet dance" data-name="quiet-dance.jpg">
-          <div class="duo"></div><img src="images/dance-cutout.jpg" alt="The couple dancing by the statue"><div class="tag">A quiet dance</div>
+        <div class="exhibit b lightbox-trigger" data-full="images/dance-cutout.jpg" data-caption="Close, always" data-name="close-always.jpg">
+          <div class="duo"></div><img src="images/dance-cutout.jpg" alt="The couple close together by the statue"><div class="tag">Close, always</div>
           <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5-5"/><path d="M10 7v6M7 10h6"/></svg></div>
         </div>
         <div class="exhibit c lightbox-trigger" data-full="images/ring-chest.jpg" data-caption="Promised" data-name="promised.jpg">
@@ -890,11 +919,11 @@
           <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5-5"/><path d="M10 7v6M7 10h6"/></svg></div>
         </div>
         <div class="exhibit e lightbox-trigger" data-full="images/engagement-arm.jpg" data-caption="Side by side" data-name="side-by-side.jpg">
-          <div class="duo"></div><img src="images/engagement-arm.jpg" alt="Arm in arm before the statue"><div class="tag">Side by side</div>
+          <div class="duo"></div><img src="images/engagement-arm.jpg" alt="The couple side by side before the statue"><div class="tag">Side by side</div>
           <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5-5"/><path d="M10 7v6M7 10h6"/></svg></div>
         </div>
-        <div class="exhibit f lightbox-trigger" data-full="images/handkiss-side.jpg" data-caption="Devotion" data-name="devotion.jpg">
-          <div class="duo"></div><img src="images/handkiss-side.jpg" alt="A hand kissed in profile"><div class="tag">Devotion</div>
+        <div class="exhibit f lightbox-trigger" data-full="images/handkiss-side.jpg" data-caption="Steady" data-name="steady.jpg">
+          <div class="duo"></div><img src="images/handkiss-side.jpg" alt="The couple holding each other"><div class="tag">Steady</div>
           <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5-5"/><path d="M10 7v6M7 10h6"/></svg></div>
         </div>
       </div>
@@ -906,9 +935,9 @@
     <div class="wrap">
       <div class="eyebrow center fade-up" style="margin-bottom:1rem;">Starring</div>
       <div class="party-names fade-up">
-        <div class="party-name"><span class="party-role">The Groom</span>Okojie Jonathan Idiahi</div>
+        <div class="party-name"><span class="party-role">The Groom</span>Jonathan</div>
         <div class="party-and">&amp;</div>
-        <div class="party-name"><span class="party-role">The Bride</span>Stephanie Ekenemchukwu Okwunze</div>
+        <div class="party-name"><span class="party-role">The Bride</span>Stephanie</div>
       </div>
     </div>
   </section>
@@ -925,7 +954,8 @@
       <div class="hosts-grid fade-up">
         <div class="host-block"><div class="k">Presiding Office</div><div class="v">Office of the VP, NUESA<span>Nigerian University Engineering Students' Association</span></div></div>
         <div class="host-block"><div class="k">Presiding Office</div><div class="v">Office of the VP, NUNSA<span>Nigerian University Nursing Students' Association</span></div></div>
-        <div class="host-block"><div class="k">Photography</div><div class="v">@nuesauniben<span>Portraits by desamuel</span></div></div>
+        <div class="host-block"><div class="k">Photography</div><div class="v">de Samuel<span>Portraits &amp; imagery</span></div></div>
+        <div class="host-block"><div class="k">Videography</div><div class="v">LenzCulture<span>Film &amp; motion</span></div></div>
       </div>
     </div>
   </section>
@@ -1120,31 +1150,39 @@
   tick();
   setInterval(tick, 1000);
 
-  // ---------- 3D TILT VIDEO CARD ----------
-  const tiltCard = document.getElementById('tiltCard');
-  const tiltGlare = document.getElementById('tiltGlare');
-  tiltCard.addEventListener('mousemove', (e)=>{
-    const r = tiltCard.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    const rotY = (x - 0.5) * 22;
-    const rotX = (0.5 - y) * 16;
-    tiltCard.style.transform = `perspective(1600px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
-    tiltGlare.style.background = `radial-gradient(circle at ${x*100}% ${y*100}%, rgba(255,255,255,0.35), rgba(255,255,255,0) 55%)`;
+  // ---------- 3D TILT VIDEO CARDS ----------
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    const glare = card.querySelector('.tilt-glare');
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      const rotY = (x - 0.5) * 22;
+      const rotX = (0.5 - y) * 16;
+      card.style.setProperty('--rx', rotX + 'deg');
+      card.style.setProperty('--ry', rotY + 'deg');
+      card.style.setProperty('--sc', '1.03');
+      if(glare){
+        glare.style.background = `radial-gradient(circle at ${x*100}% ${y*100}%, rgba(255,255,255,0.35), rgba(255,255,255,0) 55%)`;
+      }
+    });
+    card.addEventListener('mouseleave', ()=>{
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+      card.style.setProperty('--sc', '1');
+    });
+    card.addEventListener('touchmove', (e)=>{
+      const t = e.touches[0];
+      const r = card.getBoundingClientRect();
+      const x = (t.clientX - r.left) / r.width;
+      const y = (t.clientY - r.top) / r.height;
+      const rotY = (x - 0.5) * 14;
+      const rotX = (0.5 - y) * 10;
+      card.style.setProperty('--rx', rotX + 'deg');
+      card.style.setProperty('--ry', rotY + 'deg');
+      card.style.setProperty('--sc', '1.015');
+    }, {passive:true});
   });
-  tiltCard.addEventListener('mouseleave', ()=>{
-    tiltCard.style.transform = 'perspective(1600px) rotateX(0deg) rotateY(0deg) scale(1)';
-  });
-  // touch support: gentle tilt based on device tilt not required; tap to reset
-  tiltCard.addEventListener('touchmove', (e)=>{
-    const t = e.touches[0];
-    const r = tiltCard.getBoundingClientRect();
-    const x = (t.clientX - r.left) / r.width;
-    const y = (t.clientY - r.top) / r.height;
-    const rotY = (x - 0.5) * 14;
-    const rotX = (0.5 - y) * 10;
-    tiltCard.style.transform = `perspective(1600px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.01)`;
-  }, {passive:true});
 
   // ---------- MAGNETIC TILT ON GALLERY ----------
   document.querySelectorAll('.exhibit').forEach(ex=>{
